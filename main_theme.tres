@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bqyp1aqk6xbiy"]
+
+[ext_resource type="FontFile" uid="uid://dbw7hkf5pphb1" path="res://art/joystix/MedodicaRegular.otf" id="1_otsm8"]
+
+[resource]
+default_base_scale = 2.0
+default_font = ExtResource("1_otsm8")
+default_font_size = 38
