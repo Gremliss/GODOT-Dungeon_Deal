@@ -1,3 +1,4 @@
+class_name Foe
 extends Node2D
 
 @export var max_hp: int = 37
@@ -12,7 +13,7 @@ func _ready() -> void:
 	update_health_bar()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float):
+func _process(_delta: float)->void:
 	_animated_sprite.play("default")
 
 func take_damage(damage: int):
@@ -35,3 +36,4 @@ func update_health_bar():
 func die():
 	queue_free()
 	print("Victory!")
+	get_tree().change_scene_to_file("res://scenes/dungeon.tscn")

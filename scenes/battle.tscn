@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://ci17f6rg0gtkp" path="res://art/background2.png" id="1_16eui"]
 [ext_resource type="Script" path="res://scenes/battle.gd" id="1_vko1e"]
-[ext_resource type="PackedScene" uid="uid://b31sj5xn60css" path="res://scenes/card_ui.tscn" id="2_nvcsh"]
 [ext_resource type="PackedScene" uid="uid://jtxu5gt7h4sm" path="res://scenes/foe.tscn" id="3_phbsb"]
+[ext_resource type="PackedScene" uid="uid://w8nw8m6f4t2h" path="res://scenes/health_bar.tscn" id="4_6jdst"]
 [ext_resource type="Theme" uid="uid://bqyp1aqk6xbiy" path="res://main_theme.tres" id="5_gevwb"]
 
 [node name="Battle" type="Node2D"]
@@ -24,6 +24,14 @@ position = Vector2(178, 266)
 
 [node name="BattleUI" type="CanvasLayer" parent="."]
 
+[node name="PlayerHealthBar" parent="BattleUI" instance=ExtResource("4_6jdst")]
+offset_left = 0.0
+offset_top = 753.0
+offset_right = 127.0
+offset_bottom = 780.0
+max_value = 55.0
+value = 44.0
+
 [node name="Hand" type="HBoxContainer" parent="BattleUI"]
 anchors_preset = 7
 anchor_left = 0.5
@@ -38,35 +46,6 @@ grow_vertical = 0
 size_flags_vertical = 4
 alignment = 1
 
-[node name="CardUI" parent="BattleUI/Hand" instance=ExtResource("2_nvcsh")]
-layout_mode = 2
-card_text = " text1"
-neighbor_bonus_color = "RED"
-card_color = "RED"
-
-[node name="CardUI2" parent="BattleUI/Hand" instance=ExtResource("2_nvcsh")]
-layout_mode = 2
-card_text = " text2"
-neighbor_bonus_color = "RED"
-card_color = "BLUE"
-
-[node name="CardUI3" parent="BattleUI/Hand" instance=ExtResource("2_nvcsh")]
-layout_mode = 2
-card_text = " text3"
-neighbor_bonus_color = "RED"
-card_color = "RED"
-
-[node name="CardUI4" parent="BattleUI/Hand" instance=ExtResource("2_nvcsh")]
-layout_mode = 2
-card_text = " text4"
-neighbor_bonus_color = "YELLOW"
-card_color = "YELLOW"
-
-[node name="CardUI5" parent="BattleUI/Hand" instance=ExtResource("2_nvcsh")]
-layout_mode = 2
-card_text = " text5"
-neighbor_bonus_color = "RED"
-
 [node name="PlayedCards" type="HBoxContainer" parent="BattleUI"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -74,19 +53,11 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -248.0
-offset_top = 113.0
+offset_top = 103.0
 offset_right = 248.0
-offset_bottom = 283.0
+offset_bottom = 273.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 4
-alignment = 1
-
-[node name="DiscardedCards" type="HBoxContainer" parent="BattleUI"]
-offset_left = 25.0
-offset_top = 470.0
-offset_right = 521.0
-offset_bottom = 660.0
 size_flags_vertical = 4
 alignment = 1
 
@@ -120,5 +91,144 @@ grow_vertical = 2
 theme = ExtResource("5_gevwb")
 text = "Discard"
 
+[node name="ShowDeck" type="Button" parent="BattleUI"]
+offset_top = 453.0
+offset_right = 123.0
+offset_bottom = 507.0
+theme = ExtResource("5_gevwb")
+text = "Deck"
+
+[node name="DiscardBackground" type="ColorRect" parent="BattleUI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 27.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("5_gevwb")
+color = Color(0.436797, 0.502154, 0.569434, 1)
+
+[node name="Discard_label" type="Label" parent="BattleUI/DiscardBackground"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -56.0
+offset_right = 56.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme = ExtResource("5_gevwb")
+text = "Discard"
+
+[node name="CenterContainer" type="CenterContainer" parent="BattleUI/DiscardBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/DiscardBackground/CenterContainer"]
+custom_minimum_size = Vector2(500, 800)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="DiscardedCards" type="GridContainer" parent="BattleUI/DiscardBackground/CenterContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+columns = 5
+
+[node name="ShowDiscard" type="Button" parent="BattleUI/DiscardBackground"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -62.5
+offset_top = -54.0
+offset_right = 62.5
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("5_gevwb")
+text = "Close"
+
+[node name="DeckBackground" type="ColorRect" parent="BattleUI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 27.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("5_gevwb")
+color = Color(0.436797, 0.502154, 0.569434, 1)
+
+[node name="Deck_label" type="Label" parent="BattleUI/DeckBackground"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.5
+offset_right = 34.5
+offset_bottom = 39.0
+grow_horizontal = 2
+text = "Deck"
+
+[node name="CenterContainer" type="CenterContainer" parent="BattleUI/DeckBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/DeckBackground/CenterContainer"]
+custom_minimum_size = Vector2(500, 800)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="DeckCards" type="GridContainer" parent="BattleUI/DeckBackground/CenterContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+columns = 5
+
+[node name="ShowDeck" type="Button" parent="BattleUI/DeckBackground"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -61.5
+offset_top = -54.0
+offset_right = 61.5
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("5_gevwb")
+text = "Close"
+
 [connection signal="pressed" from="BattleUI/PlayCards" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="BattleUI/ShowDiscard" to="." method="_on_show_discard_pressed"]
+[connection signal="pressed" from="BattleUI/ShowDeck" to="." method="_on_show_deck_pressed"]
+[connection signal="pressed" from="BattleUI/DiscardBackground/ShowDiscard" to="." method="_on_show_discard_pressed"]
+[connection signal="pressed" from="BattleUI/DeckBackground/ShowDeck" to="." method="_on_show_deck_pressed"]
